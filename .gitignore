@@ -6,5 +6,3 @@
 .lake
 # Python bytecode cache directories
 **/__pycache__/
-# Progress file from scripts/rm_set_option.py
-scripts/.rm_set_option_progress.jsonl

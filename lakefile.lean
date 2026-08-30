@@ -23,7 +23,7 @@ require "leanprover-community" / "plausible" @ git "main"
 -/
 
 /-- These options are used as `leanOptions`, prefixed by `` `weak``, so that
-`lake build` uses them, as well as `Archive` and `Counterexamples`. -/
+`lake build` uses them. -/
 abbrev mathlibOnlyLinters : Array LeanOption := #[
   ⟨`linter.mathlibStandardSet, true⟩,
   -- Explicitly enable the header linter, since the standard set is defined in `Mathlib.Init`
@@ -37,8 +37,7 @@ abbrev mathlibOnlyLinters : Array LeanOption := #[
   -- `latest_import.yml` uses this comment: if you edit it, make sure that the workflow still works
 ]
 
-/-- These options are passed as `leanOptions` to building mathlib, as well as the
-`Archive` and `Counterexamples`. (`tests` omits the first two options.) -/
+/-- These options are passed as `leanOptions` to building mathlib. -/
 abbrev mathlibLeanOptions := #[
     ⟨`pp.unicode.fun, true⟩, -- pretty-prints `fun a ↦ b`
     ⟨`autoImplicit, false⟩,
@@ -47,7 +46,6 @@ abbrev mathlibLeanOptions := #[
     mathlibOnlyLinters.map fun s ↦ { s with name := `weak ++ s.name }
 
 package mathlib where
-  testDriver := "MathlibTest"
   -- These are additional settings which do not affect the lake hash,
   -- so they can be enabled in CI and disabled locally or vice versa.
   -- Warning: Do not put any options here that actually change the olean files,
@@ -68,41 +66,13 @@ lean_lib Mathlib where
 lean_lib Cache where
   globs := #[`Cache.+]
 
-lean_lib MathlibTest where
-  globs := #[`MathlibTest.+]
-
-lean_lib Archive where
-  leanOptions := mathlibLeanOptions
-
-lean_lib Counterexamples where
-  leanOptions := mathlibLeanOptions
-
-/-- Additional documentation in the form of modules that only contain module docstrings. -/
-lean_lib docs where
-  roots := #[`docs]
-
 /-!
-## Executables provided by Mathlib
+## Executables
 -/
-
-/--
-`lake exe autolabel 150100` adds a topic label to PR `150100` if there is a unique choice.
-This requires GitHub CLI `gh` to be installed!
-
-Calling `lake exe autolabel` without a PR number will print the result without applying
-any labels online.
--/
-lean_exe autolabel where
-  srcDir := "scripts"
 
 /-- `lake exe cache get` retrieves precompiled `.olean` files from a central server. -/
 lean_exe cache where
   root := `Cache.Main
-
-/-- `lake exe check-yaml` verifies that all declarations referred to in `docs/*.yaml` files exist. -/
-lean_exe «check-yaml» where
-  srcDir := "scripts"
-  supportInterpreter := true
 
 /-- `lake exe mk_all` constructs the files containing all imports for a project. -/
 lean_exe mk_all where
@@ -117,18 +87,6 @@ lean_exe «lint-style» where
   supportInterpreter := true
   -- Executables which import `Lake` must set `-lLake`.
   weakLinkArgs := #["-lLake"]
-
-/-- `lake exe check-title-labels` checks if a PR title obeys some basic formatting requirements.
-Currently, these checks are quite lenient, but could be made stricter in the future. -/
-lean_exe «check_title_labels» where
-  srcDir := "scripts"
-
-/-- `lake exe nightly-testing-checklist` reports nightly-testing branch status. -/
-lean_exe «nightly-testing-checklist» where
-  srcDir := "scripts"
-
-lean_exe mathlib_test_executable where
-  root := `MathlibTest.MathlibTestExecutable
 
 /-!
 ## Other configuration
