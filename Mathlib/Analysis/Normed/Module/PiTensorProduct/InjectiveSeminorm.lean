@@ -15,7 +15,7 @@ Let `𝕜` be a nontrivially normed field and `E` be a family of normed `𝕜`-v
 indexed by a finite type `ι`. We define a seminorm on `⨂[𝕜] i, Eᵢ`, which we call the
 "injective seminorm". It is chosen to satisfy the following property: for every
 normed `𝕜`-vector space `F`, the linear equivalence
-`MultilinearMap 𝕜 E F ≃ₗ[𝕜] (⨂[𝕜] i, Eᵢ) →ₗ[𝕜] F`
+`MultilinearMap (RingHom.id 𝕜) E F ≃ₗ[𝕜] (⨂[𝕜] i, Eᵢ) →ₗ[𝕜] F`
 expressing the universal property of the tensor product induces an isometric linear equivalence
 `ContinuousMultilinearMap 𝕜 E F ≃ₗᵢ[𝕜] (⨂[𝕜] i, Eᵢ) →L[𝕜] F`.
 
@@ -161,7 +161,7 @@ theorem norm_eval_le_injectiveSeminorm (f : ContinuousMultilinearMap 𝕜 E F) (
   set f'₀ := lift.symm (e.symm.toLinearMap ∘ₗ LinearMap.rangeRestrict (lift f.toMultilinearMap))
   have hf'₀ : ∀ (x : Π (i : ι), E i), ‖f'₀ x‖ ≤ ‖f‖ * ∏ i, ‖x i‖ := fun x ↦ by
     change ‖e (f'₀ x)‖ ≤ _
-    simp only [lift_symm, LinearMap.compMultilinearMap_apply, LinearMap.coe_comp,
+    simp only [lift_symm, LinearMap.compMultilinearMapₛₗ_apply, LinearMap.coe_comp,
         LinearEquiv.coe_coe, Function.comp_apply, LinearEquiv.apply_symm_apply, Submodule.coe_norm,
         LinearMap.codRestrict_apply, lift.tprod, ContinuousMultilinearMap.coe_coe, e, f'₀]
     exact f.le_opNorm x
@@ -171,7 +171,7 @@ theorem norm_eval_le_injectiveSeminorm (f : ContinuousMultilinearMap 𝕜 E F) (
     induction x using PiTensorProduct.induction_on with
     | smul_tprod =>
       simp only [lift_symm, map_smul, lift.tprod, ContinuousMultilinearMap.coe_coe,
-      MultilinearMap.coe_mkContinuous, LinearMap.compMultilinearMap_apply, LinearMap.coe_comp,
+      MultilinearMap.coe_mkContinuous, LinearMap.compMultilinearMapₛₗ_apply, LinearMap.coe_comp,
       LinearEquiv.coe_coe, Function.comp_apply, LinearEquiv.apply_symm_apply, SetLike.val_smul,
       LinearMap.codRestrict_apply, f', f'₀]
     | add _ _ hx hy => simp only [map_add, Submodule.coe_add, hx, hy]
