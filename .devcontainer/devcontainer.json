@@ -1,0 +1,20 @@
+{
+  "name": "Mathlib4 dev container",
+
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
+
+  "onCreateCommand": "lake exe cache get!",
+
+  "hostRequirements": {
+    "cpus": 4,
+    "memory": "8gb"
+  },
+
+  "customizations": {
+    "vscode": {
+      "extensions": ["leanprover.lean4"]
+    }
+  }
+}
