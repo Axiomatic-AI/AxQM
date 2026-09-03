@@ -153,10 +153,13 @@ partial def getHash (mod : Name) (sourceFile : FilePath) (visited : Std.HashSet 
         cache   := stt.cache.insert   mod (some fileHash)
         depsMap := stt.depsMap.insert mod (fileImports.map (·.1)) })
 
-/-- Files to start hashing from. -/
+/-- Files to start hashing from. `AxQM.lean` is a downstream root
+alongside `Mathlib.lean` so that a bare `cache get`/`pack` (no module argument,
+as CI invokes it) walks and caches the AxQM import closure too. -/
 def roots : CacheM <| Array <| Name × FilePath := do
   let mathlibDepPath := (← read).mathlibDepPath
-  return #[(`Mathlib, (mathlibDepPath / "Mathlib.lean"))]
+  return #[(`Mathlib, (mathlibDepPath / "Mathlib.lean")),
+    (`AxQM, (mathlibDepPath / "AxQM.lean"))]
 
 /-- Main API to retrieve the hashes of the Lean files -/
 def getHashMemo (extraRoots : Std.HashMap Name FilePath) : CacheM HashMemo :=

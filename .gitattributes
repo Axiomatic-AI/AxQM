@@ -1,0 +1,4 @@
+# mk_all-generated import aggregates: union-merge so concurrent branches never conflict on the
+# import list. A post-merge `lake exe mk_all` re-sorts and dedupes.
+Mathlib.lean merge=union
+AxQM.lean merge=union

@@ -48,7 +48,10 @@ def isPartOfMathlibCache (mod : Name) : Bool := #[
   `Duper,
   `Auto,
   `PremiseSelection,
-  `Hammer].contains mod.getRoot
+  `Hammer,
+  -- Cache the downstream AxQM library alongside Mathlib, so CI reuses
+  -- its oleans instead of recompiling the whole library from source every run.
+  `AxQM].contains mod.getRoot
 
 /-- Target directory for caching -/
 initialize CACHEDIR : FilePath ← do

@@ -6,3 +6,14 @@
 .lake
 # Python bytecode cache directories
 **/__pycache__/
+
+# Per-clone MCP server wiring, not shared.
+.mcp.json
+
+# Local tooling and editor state.
+.claude/
+.vscode/
+
+# Written by `scripts/grade/grade.py --check` only when the task-type gate goes red, and
+# uploaded by CI so an intended statement change can be adopted without a local build.
+bench/TASK-FINGERPRINTS.tsv.fresh
