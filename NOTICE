@@ -1,0 +1,105 @@
+AxQM — a proof-synthesis benchmark for quantum computing and quantum information
+Copyright (c) 2026 Axiomatic AI
+
+Licensed under the Apache License, Version 2.0. The full terms are in the file
+LICENSE. SPDX-License-Identifier: Apache-2.0
+
+Original to Axiomatic AI: AxQM/, scripts/grade/, bench/, README.md. These
+contain no mathlib4 code.
+
+
+THIRD-PARTY MATERIAL
+
+Mathlib/, Cache/, widget/, scripts/lint-style.lean, scripts/mk_all.lean,
+scripts/print-style-errors.sh and scripts/nolints-style.txt are taken from
+mathlib4 (https://github.com/leanprover-community/mathlib4), Copyright (c) the
+mathlib4 authors, and are licensed under the Apache License, Version 2.0. Each
+file's own header records its copyright and authorship, and those headers are
+unmodified.
+
+This repository forks mathlib4 at commit
+e560e3ad639d2d8c4c0662784bd40c8b07797781.
+
+
+MODIFICATIONS BY AXIOMATIC AI
+
+Axiomatic AI has changed the forked material in the ways set out below, and
+in no others.
+
+1. MultilinearMap and PiTensorProduct were generalized to be semilinear in each
+   argument -- `MultilinearMap R` becomes `MultilinearMap σ` for a `RingHom σ`
+   -- so that a multilinear map may be conjugate-linear in each argument. No
+   declaration was removed and no file was added. The 24 changed files, all
+   under Mathlib/, are:
+
+     Mathlib/Analysis/Calculus/ContDiff/FaaDiBruno.lean
+     Mathlib/Analysis/Normed/Module/Multilinear/Basic.lean
+     Mathlib/Analysis/Normed/Module/Multilinear/Curry.lean
+     Mathlib/Analysis/Normed/Module/PiTensorProduct/InjectiveSeminorm.lean
+     Mathlib/LinearAlgebra/Alternating/Basic.lean
+     Mathlib/LinearAlgebra/Alternating/DomCoprod.lean
+     Mathlib/LinearAlgebra/Multilinear/Basic.lean
+     Mathlib/LinearAlgebra/Multilinear/Basis.lean
+     Mathlib/LinearAlgebra/Multilinear/Curry.lean
+     Mathlib/LinearAlgebra/Multilinear/DFinsupp.lean
+     Mathlib/LinearAlgebra/Multilinear/DirectSum.lean
+     Mathlib/LinearAlgebra/Multilinear/FiniteDimensional.lean
+     Mathlib/LinearAlgebra/Multilinear/Finsupp.lean
+     Mathlib/LinearAlgebra/Multilinear/Pi.lean
+     Mathlib/LinearAlgebra/Multilinear/TensorProduct.lean
+     Mathlib/LinearAlgebra/PiTensorProduct.lean
+     Mathlib/LinearAlgebra/PiTensorProduct/DFinsupp.lean
+     Mathlib/LinearAlgebra/TensorAlgebra/Basic.lean
+     Mathlib/LinearAlgebra/TensorAlgebra/ToTensorPower.lean
+     Mathlib/LinearAlgebra/TensorPower/Basic.lean
+     Mathlib/LinearAlgebra/TensorPower/Pairing.lean
+     Mathlib/LinearAlgebra/TensorPower/Symmetric.lean
+     Mathlib/RingTheory/PiTensorProduct.lean
+     Mathlib/Topology/Algebra/Module/Multilinear/Basic.lean
+
+2. Mathlib's own development tooling, CI configuration and documentation
+   generation were removed -- PR labelling, deprecation rewriting, downstream
+   dashboards, benchmarking harnesses and the workflows that ran them.
+
+3. Five further files were edited so that the fork builds and caches this
+   benchmark. No other file outside Mathlib/ has been changed.
+
+     lakefile.lean        declares the AxQM library and the `grade`
+                          executable; drops mathlib's Archive and
+                          Counterexamples targets; disables one text linter,
+                          which would have required renaming files away from
+                          the book's item numbers
+     Cache/Hashing.lean   adds AxQM.lean as a hashing root beside Mathlib.lean
+     Cache/IO.lean        caches the AxQM library's oleans beside mathlib's
+     scripts/README.md    rewritten to document the scripts that remain
+     .gitignore           project-local entries
+
+   Mathlib.lean, lake-manifest.json and lean-toolchain are unchanged.
+
+
+SUI GENERIS DATABASE RIGHTS
+
+The Apache License granted above is a licence of copyright and of certain
+patent claims; by its terms it grants nothing else. To the extent that
+Axiomatic AI holds a sui generis database right (Directive 96/9/EC and the
+national laws implementing it) or any comparable right in the contents of
+bench/ -- the task index, the task dependency graph, the difficulty bands and
+the task fingerprints -- Axiomatic AI additionally grants to every recipient a
+perpetual, worldwide, non-exclusive, no-charge, royalty-free, irrevocable
+licence to extract and re-utilise the whole or any substantial part of those
+contents, on the same terms and subject to the same conditions as the Apache
+License.
+
+This is a grant in addition to the Apache License. It does not modify the
+Apache License, and nothing in it withdraws any permission the Apache License
+already gives.
+
+
+NIELSEN AND CHUANG
+
+Each task in this benchmark is a Lean 4 statement of a result or exercise from
+Quantum Computation and Quantum Information by Michael A. Nielsen and Isaac L.
+Chuang (Cambridge University Press), cited by item number and page. The book is
+not reproduced here: no passage of it is quoted, and each task states its
+mathematical claim in Lean rather than in the book's words. Rights in the book
+remain with its rights holders, and nothing granted above extends to them.
